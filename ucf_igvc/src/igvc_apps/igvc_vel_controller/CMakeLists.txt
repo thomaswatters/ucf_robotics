@@ -40,8 +40,8 @@ catkin_package(
 ## Your package locations should be listed before other locations
 # include_directories(include)
 include_directories(
-  include/
   ${catkin_INCLUDE_DIRS}
+  include
 )
 
 ## Declare a cpp library
@@ -55,15 +55,12 @@ file(GLOB_RECURSE HEADERS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} FOLLOW_SYMLINKS i
 ## Declare a cpp executable
 # add_executable(igvc_vel_controller_node src/igvc_vel_controller_node.cpp)
 add_executable(vel_controller_node_pid
-include/igvc_vel_controller/pid.h
-include/igvc_vel_controller/velocity_controller.h
 src/vel_controller_node.cpp
 src/velocity_controller.cpp
 src/pid.cpp
 )
 
 add_executable(vel_controller_node_nopid
-include/igvc_vel_controller_nopid/velocity_controller.h
 src/no_pid/velocity_controller.cpp
 src/no_pid/vel_controller_node_nopid.cpp)
 

@@ -33,7 +33,6 @@ DAMAGE.
 #include <roboteq_msgs/Command.h>
 #include "igvc_vel_controller/velocity_controller.h"
 
-
 int main(int argc, char **argv)
 {
     ROS_INFO("Starting vel_controller_node");

@@ -8,6 +8,7 @@
 #include "opencv2/opencv.hpp"
 
 
+
 /// Global variables
 cv::Mat src, dst;
 
@@ -28,10 +29,6 @@ void imageCallback(const sensor_msgs::ImageConstPtr& msg)
     }
 }
 
-
-int morph_elem = 2;
-int morph_size = 14;
-int morph_operator = 2;
 
 void processImage()
 {

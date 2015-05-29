@@ -68,16 +68,17 @@ setconfig(_CLERD, 2, 0)
 'User-variable to control command-control
 setcommand(_VAR, 0, 0)
 
-setcommand(_BOOL, 5, 0)
 
-setcommand(_BOOL, 6, 0)
+setcommand(_BOOL, 5, 0) ' EStop signal if 1 EStop is fired
+
+setcommand(_BOOL, 6, 0) ' Man/Autonomous if 1 robot is autonomous
 setcommand(_D0, 1)
 
 top:
 		
 	EStop = getvalue(_BOOL, 5) ' Boolean set via serial
 		
-	ForceRC = getvalue(_DI, 6)
+	ForceRC = getvalue(_DI, 6) ' switch on vehice to circumvent pc input
 	if ForceRC = 1 then
 		EStop = 0
 	end if
@@ -93,13 +94,12 @@ top:
 	
 
 	' Man/Autonomous switch
-	if getvalue(_PI, 4) > 1700 then
-		' give a variable the computer can reference to get status of man/autonmous
-		setcommand(_BOOL, 6, 1) 
-		setcommand(_D1, 1)
+	if getvalue(_PI, 4) > 1700 then ' if value is high then switch is in autonmous position
+		setcommand(_BOOL, 6, 1) 'set autonomous boolean
+		setcommand(_D1, 1) ' turn strobe on
 	else
-		setcommand(_BOOL, 6, 0)
-		setcommand(_D0, 1)
+		setcommand(_BOOL, 6, 0) 'set manual
+		setcommand(_D0, 1) ' set strobe off
 	end if
 		
 	if ForceRC = 1 then
@@ -113,18 +113,20 @@ top:
 		wait(10)
 	else
 		setconfig(_MXMD, 0)
-		for ch = 1 andwhile ch <= MAX_CHANNELS evaluate ch++
-			if getvalue(_BOOL, ch) = 1 then
-				GoSub PrintFeedback  ' 25 Hz
-			end if
-		next
-		c++
-		if c = 5 then
-			GoSub PrintStatus  ' 5 Hz
-			c = 0
-		end if
-		wait(19)
 	end if
+
+	for ch = 1 andwhile ch <= MAX_CHANNELS evaluate ch++
+		if getvalue(_BOOL, ch) = 1 then
+			GoSub PrintFeedback  ' 25 Hz
+		end if
+	next
+	c++
+	if c = 5 then
+		GoSub PrintStatus  ' 5 Hz
+		c = 0
+	end if
+	wait(19)
+
 	goto top
 	
 

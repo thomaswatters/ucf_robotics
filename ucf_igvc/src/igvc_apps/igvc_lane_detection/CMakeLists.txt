@@ -82,7 +82,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-#  INCLUDE_DIRS include
+   INCLUDE_DIRS include
 #  LIBRARIES igvc_lane_detection
 #  CATKIN_DEPENDS cv_bridge roscpp sensor_msgs std_msgs
 #  DEPENDS system_lib
@@ -96,6 +96,7 @@ catkin_package(
 ## Your package locations should be listed before other locations
 # include_directories(include)
 include_directories(
+  include
   ${catkin_INCLUDE_DIRS}
 )
 
@@ -105,7 +106,9 @@ include_directories(
 # )
 
 ## Declare a cpp executable
-add_executable(lane_detection_node src/lane_detection_node.cpp)
+add_executable(lane_detection_node
+src/lane_detection_node.cpp
+include/igvc_lane_detection/image_processor.h src/image_processor.cpp src/lane_processor.cpp include/igvc_lane_detection/lane_processor.h)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
